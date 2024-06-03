@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 export default function CardComponent() {
-    
+
     const base_url = 'https://reservation.smartassetwatch.com/API/V1';
 
     const [data, setData] = useState(null)
@@ -11,14 +11,14 @@ export default function CardComponent() {
     useEffect(() => {
         fetch(`${base_url}/dashboard`)
             .then((res) => res.json())
-            .then((data) => {
+            .then((data: any) => {
                 setData(data)
                 setLoading(false)
             })
     }, [])
 
     if (isLoading) return <p>Loading...</p>
-    if (!data) return <p>No profile data</p>
+    if (!data) return <p>No data</p>
 
     return (
         <div >
