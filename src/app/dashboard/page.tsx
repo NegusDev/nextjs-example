@@ -1,9 +1,11 @@
 'use client';
 import Navbar from "@/components/Navbar";
 import CardComponent from "@/components/dashboard/Card";
+import { useAppSelector } from "@/redux/store";
+
 
 export default function Dasboard() {
-  const username = localStorage.getItem('username');
+  const username = useAppSelector((state) => state.auth.value.username)
   return (
     <main className="min-h-screen flex-col items-center justify-between ">
       <Navbar />

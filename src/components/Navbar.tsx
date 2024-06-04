@@ -3,9 +3,11 @@ import Link from "next/link";
 import AdminNavBar from "./AdminNabar";
 import UserNavBar from "./UserNavbar";
 import LogOutNavBar from "./LogOutNavBar";
+import { useAppSelector } from "@/redux/store";
 
 export default function Navbar() {
-    let roleID =  window.localStorage !== undefined ? localStorage.getItem('role_id') : null;
+    // let roleID =  window.localStorage !== undefined ? localStorage.getItem('role_id') : null;
+    const roleID = useAppSelector((state) => state.auth.value.roleID)
     return (
         <nav className="bg-white border-gray-200 dark:bg-gray-900">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -18,7 +20,7 @@ export default function Navbar() {
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
                     </svg>
                 </button>
-                {localStorage.getItem('role_id') !== null ? (roleID == '1' ? AdminNavBar() : UserNavBar()) : LogOutNavBar()}
+                {roleID !== null ? (roleID == '1' ? AdminNavBar() : UserNavBar()) : LogOutNavBar()}
             </div>
         </nav>
     )

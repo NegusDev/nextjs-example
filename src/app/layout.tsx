@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
+import ReduxProvider from "@/redux/StoreProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,10 +17,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    
+
     <html lang="en">
       <Script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></Script>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <ReduxProvider>
+          {children}
+        </ReduxProvider>
+      </body>
     </html>
   );
 }

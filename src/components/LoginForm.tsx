@@ -1,11 +1,20 @@
 'use client';
 import { FormEvent, useState } from "react";
+import { logIn, logOut } from "@/redux/slices/AuthSlice";
+import { AppDispatch, useAppSelector } from "@/redux/store";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+    const router = useRouter()
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
-
     const base_url = 'https://reservation.smartassetwatch.com/API/V1';
+
+    const dispatch = useDispatch<AppDispatch>();
+    const isAuthorized = useAppSelector((state) => state.auth.value.isAuth);
+    const roleID = useAppSelector((state) => state.auth.value.roleID);
+
 
     async function onLoginSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -33,18 +42,30 @@ export default function LoginForm() {
 
             if (data.message.indexOf('successfully') > 0) {
                 if (data.role_id === 1) {
-                    localStorage.setItem('username', data.username);
-                    localStorage.setItem('email', data.email);
-                    localStorage.setItem('role_id', data.role_id);
-                    localStorage.setItem('user_id', data.user_id);
-                    location.assign('/dashboard');
+                    const results = {
+                        isAuth: true,
+                        username: data.username,
+                        email: data.email,
+                        roleID: data.role_id,
+                        userID: data.user_id,
+
+                    }
+                    dispatch(logIn(results));
+
+                    router.push('/dashboard')
 
                 } else if (data.role_id === 2) {
-                    localStorage.setItem('username', data.username);
-                    localStorage.setItem('user_id', data.user_id);
-                    localStorage.setItem('email', data.email);
-                    localStorage.setItem('role_id', data.role_id);
-                    location.assign('/reservation');
+                    const results = {
+                        isAuth: true,
+                        username: data.username,
+                        email: data.email,
+                        roleID: data.role_id,
+                        userID: data.user_id,
+
+                    }
+                    dispatch(logIn(results));
+
+                    router.push('/reservation')
                 }
             } else {
                 setError(data.message);
@@ -57,6 +78,15 @@ export default function LoginForm() {
             setIsLoading(false)
         }
         // // ...
+    }
+
+    if (isAuthorized) {
+        if (roleID == '1') {
+            router.push('/dashboard');
+        } else {
+            router.push('/reservations');
+
+        }
     }
 
     return (
