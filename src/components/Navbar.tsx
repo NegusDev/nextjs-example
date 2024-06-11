@@ -6,8 +6,7 @@ import LogOutNavBar from "./LogOutNavBar";
 import { useAppSelector } from "@/redux/store";
 
 export default function Navbar() {
-    // let roleID =  window.localStorage !== undefined ? localStorage.getItem('role_id') : null;
-    const roleID = useAppSelector((state) => state.auth.value.roleID)
+    const roleID = useAppSelector((state) => state.auth.value.roleID) || null;
     return (
         <nav className="bg-white border-gray-200 dark:bg-gray-900">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">

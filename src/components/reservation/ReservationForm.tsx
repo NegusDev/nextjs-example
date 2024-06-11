@@ -1,11 +1,13 @@
 'use client';
 import { FormEvent, useState } from "react";
 import Alert from "../Alert";
+import SessionClosed from "./SessionClosed";
 
 export default function ReservationForm() {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
     const [data, setData] = useState<string | null>(null);
+    const currentDate = new Date();
 
     const base_url = 'https://reservation.smartassetwatch.com/API/V1';
 
@@ -45,6 +47,8 @@ export default function ReservationForm() {
         }
         // // ...
     }
+
+    if (currentDate.getHours() >= 9 && currentDate.getHours() < 18) return <SessionClosed />;
 
     return (
         <div className="container mt-4 ">

@@ -1,12 +1,15 @@
 'use client';
 import Navbar from "@/components/Navbar";
 import ReservationForm from "@/components/reservation/ReservationForm";
+import { useAppSelector } from "@/redux/store";
 import Image from "next/image";
 import Link from "next/link";
 
 
 export default function Reservation() {
-    const username = localStorage.getItem('username');
+    const base_url = 'https://reservation.smartassetwatch.com/API/V1';
+    const username = useAppSelector((state) => state.auth.value.username);
+
     return (
         <main className="min-h-screen flex-col items-center justify-between ">
             <Navbar />
